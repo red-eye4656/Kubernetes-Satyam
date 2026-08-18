@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Full Stack Application</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Docker Full-Stack Application</h1>
+
+    <p class="subtitle">
+        Node.js Express Frontend + Flask Backend
+    </p>
+
+    <form action="/submit" method="POST">
+
+        <label for="name">Name</label>
+        <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter your name"
+            required
+        >
+
+        <label for="email">Email</label>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+        >
+
+        <label for="message">Message</label>
+        <textarea
+            id="message"
+            name="message"
+            placeholder="Enter your message"
+            rows="5"
+            required
+        ></textarea>
+
+        <button type="submit">Submit</button>
+
+    </form>
+
+    <% if (result) { %>
+
+        <div class="result">
+
+            <h2><%= result.message %></h2>
+
+            <% if (result.data) { %>
+                <p><strong>Name:</strong> <%= result.data.name %></p>
+                <p><strong>Email:</strong> <%= result.data.email %></p>
+                <p><strong>Message:</strong> <%= result.data.message %></p>
+            <% } %>
+
+        </div>
+
+    <% } %>
+
+</div>
+
+</body>
+</html>
