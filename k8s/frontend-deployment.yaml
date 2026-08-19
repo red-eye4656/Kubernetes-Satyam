@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: node-frontend
+  namespace: satyam-app
 spec:
   replicas: 1
   selector:
@@ -12,9 +13,41 @@ spec:
       labels:
         app: node-frontend
     spec:
+      serviceAccountName: app-service-account
       containers:
         - name: node-frontend
-          image: docker-satyam-frontend:latest
+          image: docker-satyam-frontend:v2
           imagePullPolicy: Never
           ports:
             - containerPort: 3000
+
+          env:
+            - name: PORT
+              value: "3000"
+            - name: BACKEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BACKEND_URL
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5

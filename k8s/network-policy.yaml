@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-access
+  namespace: satyam-app
+spec:
+  podSelector:
+    matchLabels:
+      app: flask-backend
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: node-frontend
+      ports:
+        - protocol: TCP
+          port: 5000
